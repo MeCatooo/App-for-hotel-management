@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7020aa895eae4d9cab5e3116bbe98def" Name="Diagram1">
+        <EntityTypeShape EntityType="HotelModel.Dodatkowe_Oplaty" Width="1.5" PointX="1" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Dodatkowe_Uslugi" Width="1.5" PointX="1" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Goscie" Width="1.5" PointX="3.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Historia_Rezerwacji" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Pokoje" Width="1.5" PointX="3.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Pracownicy" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelModel.Typ_Pokoju" Width="1.5" PointX="1" PointY="8" IsExpanded="true" />
+        <AssociationConnector Association="HotelModel.FK_Oplaty" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_uslugi" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_Goscie" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_Pokoje" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_Pracownicy" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelModel.FK_Typ_Pokoju" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

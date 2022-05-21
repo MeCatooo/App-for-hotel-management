@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HotelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dodatkowe_Oplaty">
+          <Key>
+            <PropertyRef Name="ID_Oplaty" />
+          </Key>
+          <Property Name="ID_Oplaty" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Goscia" Type="int" Nullable="false" />
+          <Property Name="ID_Uslugi" Type="int" Nullable="false" />
+          <Property Name="Data_Wykonania" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dodatkowe_Uslugi">
+          <Key>
+            <PropertyRef Name="ID_uslugi" />
+          </Key>
+          <Property Name="ID_uslugi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa_Uslugi" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Cena" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Goscie">
+          <Key>
+            <PropertyRef Name="ID_Goscia" />
+          </Key>
+          <Property Name="ID_Goscia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nazwisko" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nr_Telefonu" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="Pesel" Type="char" MaxLength="11" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Historia_Rezerwacji">
+          <Key>
+            <PropertyRef Name="ID_Rezerwacja" />
+          </Key>
+          <Property Name="ID_Rezerwacja" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Pokoju" Type="int" Nullable="false" />
+          <Property Name="ID_Goscia" Type="int" Nullable="false" />
+          <Property Name="Obslugiwany_przez" Type="int" Nullable="false" />
+          <Property Name="Rezerwacja_Od" Type="date" Nullable="false" />
+          <Property Name="Rezerwacja_Do" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pokoje">
+          <Key>
+            <PropertyRef Name="ID_Pokoju" />
+          </Key>
+          <Property Name="ID_Pokoju" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nr_Pokoju" Type="int" Nullable="false" />
+          <Property Name="Typ_Pokoju" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pracownicy">
+          <Key>
+            <PropertyRef Name="ID_Pracownika" />
+          </Key>
+          <Property Name="ID_Pracownika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nazwisko" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Nr_Telefonu" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Zatrudniny_Od" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Typ_Pokoju">
+          <Key>
+            <PropertyRef Name="ID_Typu_Pokoju" />
+          </Key>
+          <Property Name="ID_Typu_Pokoju" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Liczba_osob" Type="int" Nullable="false" />
+          <Property Name="Cena_Doba" Type="money" Nullable="false" />
+          <Property Name="Opis" Type="text" />
+        </EntityType>
+        <Association Name="FK_Goscie">
+          <End Role="Goscie" Type="Self.Goscie" Multiplicity="1" />
+          <End Role="Historia_Rezerwacji" Type="Self.Historia_Rezerwacji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goscie">
+              <PropertyRef Name="ID_Goscia" />
+            </Principal>
+            <Dependent Role="Historia_Rezerwacji">
+              <PropertyRef Name="ID_Goscia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Oplaty">
+          <End Role="Goscie" Type="Self.Goscie" Multiplicity="1" />
+          <End Role="Dodatkowe_Oplaty" Type="Self.Dodatkowe_Oplaty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goscie">
+              <PropertyRef Name="ID_Goscia" />
+            </Principal>
+            <Dependent Role="Dodatkowe_Oplaty">
+              <PropertyRef Name="ID_Goscia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pokoje">
+          <End Role="Pokoje" Type="Self.Pokoje" Multiplicity="1" />
+          <End Role="Historia_Rezerwacji" Type="Self.Historia_Rezerwacji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pokoje">
+              <PropertyRef Name="ID_Pokoju" />
+            </Principal>
+            <Dependent Role="Historia_Rezerwacji">
+              <PropertyRef Name="ID_Pokoju" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pracownicy">
+          <End Role="Pracownicy" Type="Self.Pracownicy" Multiplicity="1" />
+          <End Role="Historia_Rezerwacji" Type="Self.Historia_Rezerwacji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pracownicy">
+              <PropertyRef Name="ID_Pracownika" />
+            </Principal>
+            <Dependent Role="Historia_Rezerwacji">
+              <PropertyRef Name="Obslugiwany_przez" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Typ_Pokoju">
+          <End Role="Typ_Pokoju" Type="Self.Typ_Pokoju" Multiplicity="1" />
+          <End Role="Pokoje" Type="Self.Pokoje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typ_Pokoju">
+              <PropertyRef Name="ID_Typu_Pokoju" />
+            </Principal>
+            <Dependent Role="Pokoje">
+              <PropertyRef Name="Typ_Pokoju" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_uslugi">
+          <End Role="Dodatkowe_Uslugi" Type="Self.Dodatkowe_Uslugi" Multiplicity="1" />
+          <End Role="Dodatkowe_Oplaty" Type="Self.Dodatkowe_Oplaty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dodatkowe_Uslugi">
+              <PropertyRef Name="ID_uslugi" />
+            </Principal>
+            <Dependent Role="Dodatkowe_Oplaty">
+              <PropertyRef Name="ID_Uslugi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelModelStoreContainer">
+          <EntitySet Name="Dodatkowe_Oplaty" EntityType="Self.Dodatkowe_Oplaty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dodatkowe_Uslugi" EntityType="Self.Dodatkowe_Uslugi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Goscie" EntityType="Self.Goscie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Historia_Rezerwacji" EntityType="Self.Historia_Rezerwacji" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pokoje" EntityType="Self.Pokoje" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pracownicy" EntityType="Self.Pracownicy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Typ_Pokoju" EntityType="Self.Typ_Pokoju" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Goscie" Association="Self.FK_Goscie">
+            <End Role="Goscie" EntitySet="Goscie" />
+            <End Role="Historia_Rezerwacji" EntitySet="Historia_Rezerwacji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Oplaty" Association="Self.FK_Oplaty">
+            <End Role="Goscie" EntitySet="Goscie" />
+            <End Role="Dodatkowe_Oplaty" EntitySet="Dodatkowe_Oplaty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pokoje" Association="Self.FK_Pokoje">
+            <End Role="Pokoje" EntitySet="Pokoje" />
+            <End Role="Historia_Rezerwacji" EntitySet="Historia_Rezerwacji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pracownicy" Association="Self.FK_Pracownicy">
+            <End Role="Pracownicy" EntitySet="Pracownicy" />
+            <End Role="Historia_Rezerwacji" EntitySet="Historia_Rezerwacji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Typ_Pokoju" Association="Self.FK_Typ_Pokoju">
+            <End Role="Typ_Pokoju" EntitySet="Typ_Pokoju" />
+            <End Role="Pokoje" EntitySet="Pokoje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_uslugi" Association="Self.FK_uslugi">
+            <End Role="Dodatkowe_Uslugi" EntitySet="Dodatkowe_Uslugi" />
+            <End Role="Dodatkowe_Oplaty" EntitySet="Dodatkowe_Oplaty" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HotelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Dodatkowe_Oplaty">
+          <Key>
+            <PropertyRef Name="ID_Oplaty" />
+          </Key>
+          <Property Name="ID_Oplaty" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Goscia" Type="Int32" Nullable="false" />
+          <Property Name="ID_Uslugi" Type="Int32" Nullable="false" />
+          <Property Name="Data_Wykonania" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Goscie" Relationship="Self.FK_Oplaty" FromRole="Dodatkowe_Oplaty" ToRole="Goscie" />
+          <NavigationProperty Name="Dodatkowe_Uslugi" Relationship="Self.FK_uslugi" FromRole="Dodatkowe_Oplaty" ToRole="Dodatkowe_Uslugi" />
+        </EntityType>
+        <EntityType Name="Dodatkowe_Uslugi">
+          <Key>
+            <PropertyRef Name="ID_uslugi" />
+          </Key>
+          <Property Name="ID_uslugi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa_Uslugi" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cena" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Dodatkowe_Oplaty" Relationship="Self.FK_uslugi" FromRole="Dodatkowe_Uslugi" ToRole="Dodatkowe_Oplaty" />
+        </EntityType>
+        <EntityType Name="Goscie">
+          <Key>
+            <PropertyRef Name="ID_Goscia" />
+          </Key>
+          <Property Name="ID_Goscia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nazwisko" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nr_Telefonu" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Pesel" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Dodatkowe_Oplaty" Relationship="Self.FK_Oplaty" FromRole="Goscie" ToRole="Dodatkowe_Oplaty" />
+          <NavigationProperty Name="Historia_Rezerwacji" Relationship="Self.FK_Goscie" FromRole="Goscie" ToRole="Historia_Rezerwacji" />
+        </EntityType>
+        <EntityType Name="Historia_Rezerwacji">
+          <Key>
+            <PropertyRef Name="ID_Rezerwacja" />
+          </Key>
+          <Property Name="ID_Rezerwacja" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Pokoju" Type="Int32" Nullable="false" />
+          <Property Name="ID_Goscia" Type="Int32" Nullable="false" />
+          <Property Name="Obslugiwany_przez" Type="Int32" Nullable="false" />
+          <Property Name="Rezerwacja_Od" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Rezerwacja_Do" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Goscie" Relationship="Self.FK_Goscie" FromRole="Historia_Rezerwacji" ToRole="Goscie" />
+          <NavigationProperty Name="Pokoje" Relationship="Self.FK_Pokoje" FromRole="Historia_Rezerwacji" ToRole="Pokoje" />
+          <NavigationProperty Name="Pracownicy" Relationship="Self.FK_Pracownicy" FromRole="Historia_Rezerwacji" ToRole="Pracownicy" />
+        </EntityType>
+        <EntityType Name="Pokoje">
+          <Key>
+            <PropertyRef Name="ID_Pokoju" />
+          </Key>
+          <Property Name="ID_Pokoju" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nr_Pokoju" Type="Int32" Nullable="false" />
+          <Property Name="Typ_Pokoju" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Historia_Rezerwacji" Relationship="Self.FK_Pokoje" FromRole="Pokoje" ToRole="Historia_Rezerwacji" />
+          <NavigationProperty Name="Typ_Pokoju1" Relationship="Self.FK_Typ_Pokoju" FromRole="Pokoje" ToRole="Typ_Pokoju" />
+        </EntityType>
+        <EntityType Name="Pracownicy">
+          <Key>
+            <PropertyRef Name="ID_Pracownika" />
+          </Key>
+          <Property Name="ID_Pracownika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nazwisko" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nr_Telefonu" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Zatrudniny_Od" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Historia_Rezerwacji" Relationship="Self.FK_Pracownicy" FromRole="Pracownicy" ToRole="Historia_Rezerwacji" />
+        </EntityType>
+        <EntityType Name="Typ_Pokoju">
+          <Key>
+            <PropertyRef Name="ID_Typu_Pokoju" />
+          </Key>
+          <Property Name="ID_Typu_Pokoju" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Liczba_osob" Type="Int32" Nullable="false" />
+          <Property Name="Cena_Doba" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Opis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Pokoje" Relationship="Self.FK_Typ_Pokoju" FromRole="Typ_Pokoju" ToRole="Pokoje" />
+        </EntityType>
+        <Association Name="FK_Oplaty">
+          <End Role="Goscie" Type="Self.Goscie" Multiplicity="1" />
+          <End Role="Dodatkowe_Oplaty" Type="Self.Dodatkowe_Oplaty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goscie">
+              <PropertyRef Name="ID_Goscia" />
+            </Principal>
+            <Dependent Role="Dodatkowe_Oplaty">
+              <PropertyRef Name="ID_Goscia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_uslugi">
+          <End Role="Dodatkowe_Uslugi" Type="Self.Dodatkowe_Uslugi" Multiplicity="1" />
+          <End Role="Dodatkowe_Oplaty" Type="Self.Dodatkowe_Oplaty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dodatkowe_Uslugi">
+              <PropertyRef Name="ID_uslugi" />
+            </Principal>
+            <Dependent Role="Dodatkowe_Oplaty">
+              <PropertyRef Name="ID_Uslugi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Goscie">
+          <End Role="Goscie" Type="Self.Goscie" Multiplicity="1" />
+          <End Role="Historia_Rezerwacji" Type="Self.Historia_Rezerwacji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goscie">
+              <PropertyRef Name="ID_Goscia" />
+            </Principal>
+            <Dependent Role="Historia_Rezerwacji">
+              <PropertyRef Name="ID_Goscia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pokoje">
+          <End Role="Pokoje" Type="Self.Pokoje" Multiplicity="1" />
+          <End Role="Historia_Rezerwacji" Type="Self.Historia_Rezerwacji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pokoje">
+              <PropertyRef Name="ID_Pokoju" />
+            </Principal>
+            <Dependent Role="Historia_Rezerwacji">
+              <PropertyRef Name="ID_Pokoju" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pracownicy">
+          <End Role="Pracownicy" Type="Self.Pracownicy" Multiplicity="1" />
+          <End Role="Historia_Rezerwacji" Type="Self.Historia_Rezerwacji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pracownicy">
+              <PropertyRef Name="ID_Pracownika" />
+            </Principal>
+            <Dependent Role="Historia_Rezerwacji">
+              <PropertyRef Name="Obslugiwany_przez" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Typ_Pokoju">
+          <End Role="Typ_Pokoju" Type="Self.Typ_Pokoju" Multiplicity="1" />
+          <End Role="Pokoje" Type="Self.Pokoje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typ_Pokoju">
+              <PropertyRef Name="ID_Typu_Pokoju" />
+            </Principal>
+            <Dependent Role="Pokoje">
+              <PropertyRef Name="Typ_Pokoju" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dodatkowe_Oplaty" EntityType="Self.Dodatkowe_Oplaty" />
+          <EntitySet Name="Dodatkowe_Uslugi" EntityType="Self.Dodatkowe_Uslugi" />
+          <EntitySet Name="Goscie" EntityType="Self.Goscie" />
+          <EntitySet Name="Historia_Rezerwacji" EntityType="Self.Historia_Rezerwacji" />
+          <EntitySet Name="Pokoje" EntityType="Self.Pokoje" />
+          <EntitySet Name="Pracownicy" EntityType="Self.Pracownicy" />
+          <EntitySet Name="Typ_Pokoju" EntityType="Self.Typ_Pokoju" />
+          <AssociationSet Name="FK_Oplaty" Association="Self.FK_Oplaty">
+            <End Role="Goscie" EntitySet="Goscie" />
+            <End Role="Dodatkowe_Oplaty" EntitySet="Dodatkowe_Oplaty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_uslugi" Association="Self.FK_uslugi">
+            <End Role="Dodatkowe_Uslugi" EntitySet="Dodatkowe_Uslugi" />
+            <End Role="Dodatkowe_Oplaty" EntitySet="Dodatkowe_Oplaty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Goscie" Association="Self.FK_Goscie">
+            <End Role="Goscie" EntitySet="Goscie" />
+            <End Role="Historia_Rezerwacji" EntitySet="Historia_Rezerwacji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pokoje" Association="Self.FK_Pokoje">
+            <End Role="Pokoje" EntitySet="Pokoje" />
+            <End Role="Historia_Rezerwacji" EntitySet="Historia_Rezerwacji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pracownicy" Association="Self.FK_Pracownicy">
+            <End Role="Pracownicy" EntitySet="Pracownicy" />
+            <End Role="Historia_Rezerwacji" EntitySet="Historia_Rezerwacji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Typ_Pokoju" Association="Self.FK_Typ_Pokoju">
+            <End Role="Typ_Pokoju" EntitySet="Typ_Pokoju" />
+            <End Role="Pokoje" EntitySet="Pokoje" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HotelModelStoreContainer" CdmEntityContainer="HotelEntities">
+          <EntitySetMapping Name="Dodatkowe_Oplaty">
+            <EntityTypeMapping TypeName="HotelModel.Dodatkowe_Oplaty">
+              <MappingFragment StoreEntitySet="Dodatkowe_Oplaty">
+                <ScalarProperty Name="ID_Oplaty" ColumnName="ID_Oplaty" />
+                <ScalarProperty Name="ID_Goscia" ColumnName="ID_Goscia" />
+                <ScalarProperty Name="ID_Uslugi" ColumnName="ID_Uslugi" />
+                <ScalarProperty Name="Data_Wykonania" ColumnName="Data_Wykonania" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dodatkowe_Uslugi">
+            <EntityTypeMapping TypeName="HotelModel.Dodatkowe_Uslugi">
+              <MappingFragment StoreEntitySet="Dodatkowe_Uslugi">
+                <ScalarProperty Name="ID_uslugi" ColumnName="ID_uslugi" />
+                <ScalarProperty Name="Nazwa_Uslugi" ColumnName="Nazwa_Uslugi" />
+                <ScalarProperty Name="Cena" ColumnName="Cena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Goscie">
+            <EntityTypeMapping TypeName="HotelModel.Goscie">
+              <MappingFragment StoreEntitySet="Goscie">
+                <ScalarProperty Name="ID_Goscia" ColumnName="ID_Goscia" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="Nr_Telefonu" ColumnName="Nr_Telefonu" />
+                <ScalarProperty Name="Pesel" ColumnName="Pesel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Historia_Rezerwacji">
+            <EntityTypeMapping TypeName="HotelModel.Historia_Rezerwacji">
+              <MappingFragment StoreEntitySet="Historia_Rezerwacji">
+                <ScalarProperty Name="ID_Rezerwacja" ColumnName="ID_Rezerwacja" />
+                <ScalarProperty Name="ID_Pokoju" ColumnName="ID_Pokoju" />
+                <ScalarProperty Name="ID_Goscia" ColumnName="ID_Goscia" />
+                <ScalarProperty Name="Obslugiwany_przez" ColumnName="Obslugiwany_przez" />
+                <ScalarProperty Name="Rezerwacja_Od" ColumnName="Rezerwacja_Od" />
+                <ScalarProperty Name="Rezerwacja_Do" ColumnName="Rezerwacja_Do" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pokoje">
+            <EntityTypeMapping TypeName="HotelModel.Pokoje">
+              <MappingFragment StoreEntitySet="Pokoje">
+                <ScalarProperty Name="ID_Pokoju" ColumnName="ID_Pokoju" />
+                <ScalarProperty Name="Nr_Pokoju" ColumnName="Nr_Pokoju" />
+                <ScalarProperty Name="Typ_Pokoju" ColumnName="Typ_Pokoju" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pracownicy">
+            <EntityTypeMapping TypeName="HotelModel.Pracownicy">
+              <MappingFragment StoreEntitySet="Pracownicy">
+                <ScalarProperty Name="ID_Pracownika" ColumnName="ID_Pracownika" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="Nr_Telefonu" ColumnName="Nr_Telefonu" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Zatrudniny_Od" ColumnName="Zatrudniny_Od" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Typ_Pokoju">
+            <EntityTypeMapping TypeName="HotelModel.Typ_Pokoju">
+              <MappingFragment StoreEntitySet="Typ_Pokoju">
+                <ScalarProperty Name="ID_Typu_Pokoju" ColumnName="ID_Typu_Pokoju" />
+                <ScalarProperty Name="Liczba_osob" ColumnName="Liczba_osob" />
+                <ScalarProperty Name="Cena_Doba" ColumnName="Cena_Doba" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
