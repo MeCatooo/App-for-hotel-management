@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace ProjektZaliczeniowy
 {
@@ -20,9 +24,50 @@ namespace ProjektZaliczeniowy
     /// </summary>
     public partial class MainWindow : Window
     {
+        HotelEntities context = new HotelEntities();
+        CollectionViewSource collectionRezerwacje;
+        CollectionViewSource collectionPokoje;
         public MainWindow()
         {
             InitializeComponent();
+            collectionRezerwacje = ((CollectionViewSource)(FindResource("historia_RezerwacjiViewSource")));
+            collectionPokoje = ((CollectionViewSource)(FindResource("historia_RezerwacjiViewSource")));
+            FillDataGrid();
+            DataContext = this;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            //System.Windows.Data.CollectionViewSource dodatkowe_OplatyViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("dodatkowe_OplatyViewSource")));
+            //// Załaduj dane poprzez ustawienie właściwości CollectionViewSource.Source:
+            //// dodatkowe_OplatyViewSource.Źródło = [ogólne źródło danych]
+            //System.Windows.Data.CollectionViewSource goscieViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("goscieViewSource")));
+            //// Załaduj dane poprzez ustawienie właściwości CollectionViewSource.Source:
+            //// goscieViewSource.Źródło = [ogólne źródło danych]
+            //System.Windows.Data.CollectionViewSource historia_RezerwacjiViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("historia_RezerwacjiViewSource")));
+            //// Załaduj dane poprzez ustawienie właściwości CollectionViewSource.Source:
+            //// historia_RezerwacjiViewSource.Źródło = [ogólne źródło danych]
+            context.Historia_Rezerwacji.Load();
+            collectionRezerwacje.Source = context.Historia_Rezerwacji.Local;
+            //context.Goscie.
+            System.Windows.Data.CollectionViewSource typ_PokojuViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("typ_PokojuViewSource")));
+            // Załaduj dane poprzez ustawienie właściwości CollectionViewSource.Source:
+            // typ_PokojuViewSource.Źródło = [ogólne źródło danych]
+        }
+        private void FillDataGrid()
+        {
+            string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+            string CmdString = string.Empty;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                CmdString = "select Nr_Pokoju from Pokoje except select p.Nr_Pokoju from Historia_Rezerwacji h right join Pokoje p on h.Id_Pokoju=p.Id_Pokoju where Rezerwacja_Do>'2020-12-02' ;";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("Pokoje");
+                sda.Fill(dt);
+                grdEmployee.ItemsSource = dt.DefaultView;
+            }
         }
     }
 }

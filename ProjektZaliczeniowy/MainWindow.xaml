@@ -5,7 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektZaliczeniowy"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Goście" Height="600" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="dodatkowe_OplatyViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Dodatkowe_Oplaty}, CreateList=True}"/>
+        <CollectionViewSource x:Key="goscieViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Goscie}, CreateList=True}"/>
+        <CollectionViewSource x:Key="historia_RezerwacjiViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Historia_Rezerwacji}, CreateList=True}"/>
+        <CollectionViewSource x:Key="typ_PokojuViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Typ_Pokoju}, CreateList=True}"/>
+        <CollectionViewSource x:Key="typ_PokojuPokojeViewSource" Source="{Binding Pokoje, Source={StaticResource typ_PokojuViewSource}}"/>
+        <CollectionViewSource x:Key="historia_RezerwacjiDodatkowe_OplatyViewSource" Source="{Binding Dodatkowe_Oplaty, Source={StaticResource historia_RezerwacjiViewSource}}"/>
+        <CollectionViewSource x:Key="historia_RezerwacjiHistoria_RezerwacjiViewSource" Source="{Binding Historia_Rezerwacji, Source={StaticResource historia_RezerwacjiViewSource}}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource typ_PokojuPokojeViewSource}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Name="grdEmployee" HorizontalAlignment="Left" Height="395" Margin="85,85,0,0" Grid.Row="2" VerticalAlignment="Top" Width="555"/>
     </Grid>
+
 </Window>
+    

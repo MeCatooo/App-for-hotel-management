@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -142,7 +143,12 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Dodatkowe_Oplaty.datasource" />
+    <None Include="Properties\DataSources\Dodatkowe_Uslugi.datasource" />
     <None Include="Properties\DataSources\Goscie.datasource" />
+    <None Include="Properties\DataSources\Historia_Rezerwacji.datasource" />
+    <None Include="Properties\DataSources\Pracownicy.datasource" />
+    <None Include="Properties\DataSources\Typ_Pokoju.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
