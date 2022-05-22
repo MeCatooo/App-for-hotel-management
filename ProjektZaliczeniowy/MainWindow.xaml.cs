@@ -44,6 +44,7 @@ namespace ProjektZaliczeniowy
         {
             string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
             string CmdString = string.Empty;
+            grdEmployee.ItemsSource = null;
             using (SqlConnection con = new SqlConnection(ConString))
             {
                 CmdString = "select Nr_Pokoju from Pokoje except select p.Nr_Pokoju from Historia_Rezerwacji h right join Pokoje p on h.Id_Pokoju=p.Id_Pokoju where Rezerwacja_Do>GETDATE() ;";
@@ -54,11 +55,35 @@ namespace ProjektZaliczeniowy
                 grdEmployee.ItemsSource = dt.DefaultView;
             }
         }
+        private void ZajetePokojeGrid()
+        {
+            string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+            string CmdString = string.Empty;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                CmdString = "select distinct p.Nr_Pokoju from Historia_Rezerwacji h inner join Pokoje p on h.ID_Pokoju = p.ID_Pokoju";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("Pokoje");
+                sda.Fill(dt);
+                grdEmployee.ItemsSource = dt.DefaultView;
+            }
+        }
+        private void ZajeteButton_Click(object sender, RoutedEventArgs e)
+        {
+            ZajetePokojeGrid();
+        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void WolneButton_Click(object sender, RoutedEventArgs e)
         {
             WolnePokojeGrid();
-            Guzik.IsEnabled = false;
+            WolneButton.IsEnabled = false;
+        }
+
+        private void PracownicyButton_Click(object sender, RoutedEventArgs e)
+        {
+            PracownicyWindow pracownicyWindow = new PracownicyWindow();
+            pracownicyWindow.ShowDialog();
         }
     }
 }
