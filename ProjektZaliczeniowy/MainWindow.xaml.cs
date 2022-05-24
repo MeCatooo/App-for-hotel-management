@@ -72,18 +72,25 @@ namespace ProjektZaliczeniowy
         private void ZajeteButton_Click(object sender, RoutedEventArgs e)
         {
             ZajetePokojeGrid();
+            StatusBox.Content = "Zajęte pokoje";
         }
 
         private void WolneButton_Click(object sender, RoutedEventArgs e)
         {
             WolnePokojeGrid();
-            WolneButton.IsEnabled = false;
+            StatusBox.Content = "Wolne pokoje";
         }
 
         private void PracownicyButton_Click(object sender, RoutedEventArgs e)
         {
             PracownicyWindow pracownicyWindow = new PracownicyWindow();
             pracownicyWindow.ShowDialog();
+        }
+
+        private void RezerwacjeButton_Click(object sender, RoutedEventArgs e)
+        {
+            RezerwacjeWindow rezerwacjeWindow = new RezerwacjeWindow();
+            rezerwacjeWindow.ShowDialog();
         }
     }
 }

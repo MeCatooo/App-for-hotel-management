@@ -5,25 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektZaliczeniowy"
         mc:Ignorable="d"
-        Title="PracownicyWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Pracownicy" Height="450" Width="1000" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="pracownicyViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Pracownicy}, CreateList=True}"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource pracownicyViewSource}">
-        <DataGrid x:Name="pracownicyDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="326,90,51,129" RowDetailsVisibilityMode="VisibleWhenSelected">
+        <DataGrid x:Name="pracownicyDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="326,90,51,129" RowDetailsVisibilityMode="VisibleWhenSelected" IsReadOnly="True">
             <DataGrid.Columns>
-
-                <DataGridTextColumn x:Name="imieColumn" Binding="{Binding Imie}" Header="Imie" Width="SizeToHeader" IsReadOnly="True"/>
-                <DataGridTextColumn x:Name="nazwiskoColumn" Binding="{Binding Nazwisko}" Header="Nazwisko" Width="SizeToHeader" IsReadOnly="True"/>
-                <DataGridTextColumn x:Name="emailColumn" Binding="{Binding Email}" Header="Email" Width="SizeToHeader" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="imieColumn" Binding="{Binding Imie}" Header="Imie" Width="75" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="nazwiskoColumn" Binding="{Binding Nazwisko}" Header="Nazwisko" Width="75" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="emailColumn" Binding="{Binding Email}" Header="Email" Width="*" IsReadOnly="True"/>
                 <DataGridTextColumn x:Name="nr_TelefonuColumn" Binding="{Binding Nr_Telefonu}" Header="Nr Telefonu" Width="SizeToHeader" IsReadOnly="True"/>
-                <DataGridTemplateColumn x:Name="zatrudniny_OdColumn" Header="Zatrudniny Od" Width="SizeToHeader" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Zatrudniny_Od, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn x:Name="zatrudniny_OdColumn" Binding="{Binding Zatrudniny_Od , StringFormat=\{0:dd.MM.yyyy\}}" Header="Zatrudniny Od" Width="86" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
         <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="51,90,0,0" VerticalAlignment="Top">
@@ -52,9 +45,9 @@
             <Label Content="Zatrudniny Od:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
             <DatePicker x:Name="zatrudniny_OdDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3,4,0,4" Grid.Row="5" SelectedDate="{Binding Zatrudniny_Od, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="128"/>
         </Grid>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="205,305,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="202,305,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="60,305,0,0" VerticalAlignment="Top" Width="75" Click="DeleteButton_Click"/>
-        <Label Content="Wybierz pozycję z listy lub stwórz własną" HorizontalAlignment="Left" Margin="405,307,0,0" VerticalAlignment="Top" Width="300"/>
+        <Label Content="Wybierz pozycję z listy lub stwórz własną" HorizontalAlignment="Left" Margin="326,307,0,0" VerticalAlignment="Top" Width="300"/>
 
     </Grid>
 </Window>

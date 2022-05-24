@@ -94,6 +94,9 @@
     <Compile Include="PracownicyWindow.xaml.cs">
       <DependentUpon>PracownicyWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RezerwacjeWindow.xaml.cs">
+      <DependentUpon>RezerwacjeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Typ_Pokoju.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -110,6 +113,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PracownicyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RezerwacjeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -39,6 +39,9 @@
         <Button Content="Wolne Pokoje" HorizontalAlignment="Left" Margin="40,380,0,0" Grid.Row="2" VerticalAlignment="Top" Width="auto" Click="WolneButton_Click" x:Name="WolneButton"/>
         <Button x:Name="PracownicyButton" Content="Pracownicy" HorizontalAlignment="Left" Margin="40,445,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="PracownicyButton_Click"/>
         <Button x:Name="ZajeteButton" Content="Zajete pokoje" HorizontalAlignment="Left" Margin="155,380,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="ZajeteButton_Click"/>
+        <Label Content="Aktualny status:" HorizontalAlignment="Left" Margin="570,382,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label x:Name="StatusBox" Content="brak" HorizontalAlignment="Left" Margin="668,382,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Button x:Name="RezerwacjeButton" Content="Rezerwacje" HorizontalAlignment="Left" Margin="155,445,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="RezerwacjeButton_Click"/>
 
     </Grid>
 

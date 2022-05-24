@@ -1,0 +1,71 @@
+﻿<Window x:Class="ProjektZaliczeniowy.RezerwacjeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjektZaliczeniowy"
+        mc:Ignorable="d"
+        Title="RezerwacjeWindow" Height="600" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="historia_RezerwacjiViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Historia_Rezerwacji}, CreateList=True}" x:Name="historia_RezerwacjiDataGrid1"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource historia_RezerwacjiViewSource}">
+        <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="70,46,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="ID Goscia:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <Label x:Name="iD_GosciaLabel" Content="{Binding ID_Goscia}" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <Label Content="ID Pokoju:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <Label x:Name="iD_PokojuLabel" Content="{Binding ID_Pokoju}" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <Label Content="ID Rezerwacja:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <Label x:Name="iD_RezerwacjaLabel" Content="{Binding ID_Rezerwacja}" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <Label Content="Obslugiwany przez:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <TextBox x:Name="obslugiwany_przezTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding Obslugiwany_przez, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Rezerwacja Do:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+            <DatePicker x:Name="rezerwacja_DoDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="4" SelectedDate="{Binding Rezerwacja_Do, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+            <Label Content="Rezerwacja Od:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+            <DatePicker x:Name="rezerwacja_OdDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="5" SelectedDate="{Binding Rezerwacja_Od, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+            <Label Content="Imie:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+            <TextBox x:Name="imieTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" Text="{Binding Goscie.Imie, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Nazwisko:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            <TextBox x:Name="nazwiskoTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="7" Text="{Binding Goscie.Nazwisko, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Nr Telefonu:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="8" VerticalAlignment="Center"/>
+            <TextBox x:Name="nr_TelefonuTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="8" Text="{Binding Goscie.Nr_Telefonu, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Pesel:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="9" VerticalAlignment="Center"/>
+            <TextBox x:Name="peselTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="9" Text="{Binding Goscie.Pesel, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Nr Pokoju:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="10" VerticalAlignment="Center"/>
+            <Label x:Name="nr_PokojuLabel" Content="{Binding Pokoje.Nr_Pokoju}" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="10" VerticalAlignment="Center"/>
+            <Label Content="Typ Pokoju:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="11" VerticalAlignment="Center"/>
+            <ComboBox x:Name="typ_PokojuComboBox" Grid.Column="1" DisplayMemberPath="Pokoje.Typ_Pokoju" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="11" VerticalAlignment="Center" Width="120">
+                <ComboBoxItem Content="Standard"></ComboBoxItem>
+                <ComboBoxItem Content="Ekonomiczny"></ComboBoxItem>
+                <ComboBoxItem Content="Superior"></ComboBoxItem>
+                <ComboBoxItem Content="Deluxe"></ComboBoxItem>
+                <ComboBoxItem Content="Premier"></ComboBoxItem>
+                <ComboBoxItem Content="Executive"></ComboBoxItem>
+            </ComboBox>
+        </Grid>
+        <DataGrid x:Name="historia_RezerwacjiDataGrid" HorizontalAlignment="Left" Height="384" Margin="365,46,0,0" VerticalAlignment="Top" Width="385"/>
+        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="239,490,0,0" VerticalAlignment="Top" Width="75" Click="SaveButton_Click"/>
+        <Button x:Name="WszystkieButton" Content="Wszystkie" HorizontalAlignment="Left" Margin="675,500,0,0" VerticalAlignment="Top" Width="75" Click="WszystkieButton_Click"/>
+        <Button x:Name="OstatnieDniButton" Content="Ostatnie 7 dni" HorizontalAlignment="Left" Margin="540,500,0,0" VerticalAlignment="Top" Width="75" Click="OstatnieDniButton_Click"/>
+
+
+    </Grid>
+</Window>
