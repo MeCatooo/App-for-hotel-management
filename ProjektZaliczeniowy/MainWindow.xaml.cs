@@ -116,5 +116,10 @@ namespace ProjektZaliczeniowy
             rezerwacjeWindow.ShowDialog();
         }
 
+        private void GoscieButton_Click(object sender, RoutedEventArgs e)
+        {
+            GoscieWindow goscieWindow = new GoscieWindow();
+            goscieWindow.ShowDialog();
+        }
     }
 }

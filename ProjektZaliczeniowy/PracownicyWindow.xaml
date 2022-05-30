@@ -41,7 +41,7 @@
         <Label Content="Edytuj pozycję z listy lub stwórz własną" HorizontalAlignment="Left" Margin="326,307,0,0" VerticalAlignment="Top" Width="300"/>
         <DataGrid x:Name="pracownicyDataGrid" CanUserAddRows="False" CellEditEnding="myDG_CellEditEnding" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="326,82,32,112" RowDetailsVisibilityMode="VisibleWhenSelected">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="50" Header="Delete">
+                <DataGridTemplateColumn Width="55" Header="Delete">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Width="50" Click="DeleteButton1_Click">Delete</Button>

@@ -83,6 +83,9 @@
     <Compile Include="Goscie.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="GoscieWindow.xaml.cs">
+      <DependentUpon>GoscieWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Historia_Rezerwacji.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -106,6 +109,10 @@
     <Compile Include="Typ_Pokoju.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Page Include="GoscieWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
