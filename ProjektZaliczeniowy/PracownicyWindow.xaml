@@ -9,6 +9,9 @@
     <Window.Resources>
         <CollectionViewSource x:Key="pracownicyViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Pracownicy}, CreateList=True}"/>
     </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </Window.Style>
     <Grid DataContext="{StaticResource pracownicyViewSource}">
         <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="51,90,0,0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
@@ -25,9 +28,7 @@
             </Grid.RowDefinitions>
             <Label Content="Email:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
             <TextBox x:Name="emailTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="3,4,0,4" Grid.Row="1" Text="" VerticalAlignment="Center" Width="128"/>
-            <TextBox x:Name="iD_PracownikaTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="3,4,0,4" Grid.Row="0" Text="" VerticalAlignment="Center" Width="128" IsEnabled="False"/>
             <Label Content="Imie:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <Label Content="ID Pracownika:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center" IsEnabled="False"/>
             <TextBox x:Name="imieTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="3,4,0,4" Grid.Row="2" Text="" VerticalAlignment="Center" Width="128"/>
             <Label Content="Nazwisko:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
             <TextBox x:Name="nazwiskoTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="3,4,0,4" Grid.Row="3" Text="" VerticalAlignment="Center" Width="128"/>
@@ -36,10 +37,17 @@
             <Label Content="Zatrudniny Od:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
             <DatePicker x:Name="zatrudniny_OdDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3,4,0,4" Grid.Row="5" SelectedDate="" VerticalAlignment="Center" Width="128"/>
         </Grid>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="202,305,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="198,283,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <Label Content="Edytuj pozycję z listy lub stwórz własną" HorizontalAlignment="Left" Margin="326,307,0,0" VerticalAlignment="Top" Width="300"/>
         <DataGrid x:Name="pracownicyDataGrid" CanUserAddRows="False" CellEditEnding="myDG_CellEditEnding" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="326,82,32,112" RowDetailsVisibilityMode="VisibleWhenSelected">
             <DataGrid.Columns>
+                <DataGridTemplateColumn Width="50" Header="Delete">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Width="50" Click="DeleteButton1_Click">Delete</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn x:Name="emailColumn" Binding="{Binding Email }" Header="Email" Width="*"/>
                 <DataGridTextColumn x:Name="imieColumn" Binding="{Binding Imie}" Header="Imie" Width="80"/>
                 <DataGridTextColumn x:Name="nazwiskoColumn" Binding="{Binding Nazwisko}" Header="Nazwisko" Width="100"/>
@@ -48,13 +56,6 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DatePicker SelectedDate="{Binding Zatrudniny_Od, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="50">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Width="50" Click="DeleteButton1_Click">Delete</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

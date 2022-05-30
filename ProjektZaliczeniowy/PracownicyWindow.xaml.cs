@@ -1,4 +1,5 @@
 ﻿using System;
+using AdonisUI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,7 @@ namespace ProjektZaliczeniowy
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            AdonisUI.ResourceLocator.SetColorScheme(Application.Current.Resources, ResourceLocator.DarkColorScheme);
             context.Pracownicy.Load();
             System.Windows.Data.CollectionViewSource pracownicyViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("pracownicyViewSource")));
             pracownicyViewSource.Source = context.Pracownicy.Local;
@@ -41,23 +43,13 @@ namespace ProjektZaliczeniowy
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Pracownicy pracownicy = new Pracownicy() {Email = emailTextBox.Text, Imie = imieTextBox.Text, Nazwisko = nazwiskoTextBox.Text, Nr_Telefonu = nr_TelefonuTextBox.Text, Zatrudniny_Od = (DateTime)zatrudniny_OdDatePicker.SelectedDate };
             try
             {
+                Pracownicy pracownicy = new Pracownicy() {Email = emailTextBox.Text, Imie = imieTextBox.Text, Nazwisko = nazwiskoTextBox.Text, Nr_Telefonu = nr_TelefonuTextBox.Text, Zatrudniny_Od = (DateTime)zatrudniny_OdDatePicker.SelectedDate };
                 if ((DateTime)zatrudniny_OdDatePicker.SelectedDate > DateTime.Now)
                     throw new ArgumentException();
-                int tmpId = 0;//int.Parse(iD_PracownikaTextBox.Text);
-            if (context.Pracownicy.Any(element => element.ID_Pracownika == tmpId))
-            {
-                var toEdit = context.Pracownicy.Find(int.Parse(iD_PracownikaTextBox.Text));
-                context.Entry(toEdit).CurrentValues.SetValues(pracownicy);
-                context.SaveChanges();
-            }
-            else
-            {
                 context.Pracownicy.Add(pracownicy);
                 context.SaveChanges();
-            }
             }
             catch (Exception exc)
             {

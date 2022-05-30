@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using AdonisUI;
 
 namespace ProjektZaliczeniowy
 {
@@ -37,6 +38,7 @@ namespace ProjektZaliczeniowy
         {
             WszystkiePokojeGrid();
             StatusBox.Content = "Wszystkie pokoje";
+            AdonisUI.ResourceLocator.SetColorScheme(Application.Current.Resources, ResourceLocator.DarkColorScheme);
             //context.Historia_Rezerwacji.Load();
             //collectionRezerwacje.Source = context.Historia_Rezerwacji.Local;
             //System.Windows.Data.CollectionViewSource typ_PokojuViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("typ_PokojuViewSource")));
@@ -48,7 +50,7 @@ namespace ProjektZaliczeniowy
             grdEmployee.ItemsSource = null;
             using (SqlConnection con = new SqlConnection(ConString))
             {
-                CmdString = "select Nr_Pokoju from Pokoje except select p.Nr_Pokoju from Historia_Rezerwacji h right join Pokoje p on h.Id_Pokoju=p.Id_Pokoju where Rezerwacja_Do>GETDATE() ;";
+                CmdString = "select p.Nr_Pokoju, t.Opis from Pokoje p inner join Typ_Pokoju t on p.Typ_Pokoju=t.ID_Typu_Pokoju where p.Nr_Pokoju NOT in (select p.Nr_Pokoju from Historia_Rezerwacji h right join Pokoje p on h.Id_Pokoju=p.Id_Pokoju where Rezerwacja_Do>GETDATE()); ";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("Pokoje");

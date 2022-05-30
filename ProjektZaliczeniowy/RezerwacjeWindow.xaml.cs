@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdonisUI;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -29,6 +30,7 @@ namespace ProjektZaliczeniowy
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            AdonisUI.ResourceLocator.SetColorScheme(Application.Current.Resources, ResourceLocator.DarkColorScheme);
             //context.Historia_Rezerwacji.Load();
             //System.Windows.Data.CollectionViewSource historia_RezerwacjiViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("historia_RezerwacjiViewSource")));
             //historia_RezerwacjiViewSource.Source = context.Historia_Rezerwacji.Local;

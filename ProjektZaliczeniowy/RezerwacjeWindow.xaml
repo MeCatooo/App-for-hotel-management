@@ -9,6 +9,9 @@
     <Window.Resources>
         <CollectionViewSource x:Key="historia_RezerwacjiViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Historia_Rezerwacji}, CreateList=True}" x:Name="historia_RezerwacjiDataGrid1"/>
     </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </Window.Style>
     <Grid DataContext="{StaticResource historia_RezerwacjiViewSource}">
         <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="40,46,0,0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
@@ -29,8 +32,6 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="ID Rezerwacja:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <Label x:Name="iD_RezerwacjaLabel" Content="{Binding ID_Rezerwacja}" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
             <Label Content="Obslugiwany przez:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
             <TextBox x:Name="obslugiwany_przezTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding Obslugiwany_przez, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
             <Label Content="Rezerwacja Do:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
@@ -52,9 +53,9 @@
 
             </ComboBox>
         </Grid>
-        <DataGrid x:Name="historia_RezerwacjiDataGrid" HorizontalAlignment="Left" Height="384" Margin="320,46,0,0" VerticalAlignment="Top" Width="430" CanUserAddRows="False">
+        <DataGrid x:Name="historia_RezerwacjiDataGrid" HorizontalAlignment="Left" Height="384" Margin="320,46,0,0" VerticalAlignment="Top" Width="430" CanUserAddRows="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="50">
+                <DataGridTemplateColumn Width="55" Header="Delete">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Width="50" Click="DeleteButton1_Click">Delete</Button>
@@ -63,7 +64,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="209,485,0,0" VerticalAlignment="Top" Width="75" Click="SaveButton_Click"/>
+        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="207,375,0,0" VerticalAlignment="Top" Width="75" Click="SaveButton_Click"/>
         <Button x:Name="WszystkieButton" Content="Wszystkie" HorizontalAlignment="Left" Margin="675,500,0,0" VerticalAlignment="Top" Width="75" Click="WszystkieButton_Click"/>
         <Button x:Name="OstatnieDniButton" Content="Ostatnie 7 dni" HorizontalAlignment="Left" Margin="540,500,0,0" VerticalAlignment="Top" Width="75" Click="OstatnieDniButton_Click"/>
 
