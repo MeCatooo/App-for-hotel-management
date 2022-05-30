@@ -36,16 +36,17 @@ namespace ProjektZaliczeniowy
             context.Pracownicy.Load();
             System.Windows.Data.CollectionViewSource pracownicyViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("pracownicyViewSource")));
             pracownicyViewSource.Source = context.Pracownicy.Local;
+            zatrudniny_OdDatePicker.SelectedDate = DateTime.Now;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Pracownicy pracownicy = new Pracownicy() { ID_Pracownika = int.Parse(iD_PracownikaTextBox.Text), Email = emailTextBox.Text, Imie = imieTextBox.Text, Nazwisko = nazwiskoTextBox.Text, Nr_Telefonu = nr_TelefonuTextBox.Text, Zatrudniny_Od = (DateTime)zatrudniny_OdDatePicker.SelectedDate };
+            Pracownicy pracownicy = new Pracownicy() {Email = emailTextBox.Text, Imie = imieTextBox.Text, Nazwisko = nazwiskoTextBox.Text, Nr_Telefonu = nr_TelefonuTextBox.Text, Zatrudniny_Od = (DateTime)zatrudniny_OdDatePicker.SelectedDate };
             try
             {
                 if ((DateTime)zatrudniny_OdDatePicker.SelectedDate > DateTime.Now)
                     throw new ArgumentException();
-                int tmpId = int.Parse(iD_PracownikaTextBox.Text);
+                int tmpId = 0;//int.Parse(iD_PracownikaTextBox.Text);
             if (context.Pracownicy.Any(element => element.ID_Pracownika == tmpId))
             {
                 var toEdit = context.Pracownicy.Find(int.Parse(iD_PracownikaTextBox.Text));
@@ -58,9 +59,9 @@ namespace ProjektZaliczeniowy
                 context.SaveChanges();
             }
             }
-            catch (Exception)
+            catch (Exception exc)
             {
-                MessageBox.Show("Niepoprawne dane");
+                MessageBox.Show(exc.ToString());
             }
             finally
             {
@@ -68,12 +69,18 @@ namespace ProjektZaliczeniowy
             }
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton1_Click(object sender, RoutedEventArgs e)
         {
-            context.Pracownicy.Remove(context.Pracownicy.Find(int.Parse(iD_PracownikaTextBox.Text)));
+            var lista = (Pracownicy)pracownicyDataGrid.SelectedItem;
+            context.Pracownicy.Remove(context.Pracownicy.Find(lista.ID_Pracownika));
             context.SaveChanges();
             MessageBox.Show("Usunieto");
         }
+        private void myDG_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            context.SaveChanges();
+        }
+
 
         //private void Button_Click_1(object sender, RoutedEventArgs e)
         //{

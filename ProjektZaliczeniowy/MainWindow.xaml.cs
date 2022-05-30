@@ -35,7 +35,8 @@ namespace ProjektZaliczeniowy
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            WszystkiePokojeGrid();
+            StatusBox.Content = "Wszystkie pokoje";
             //context.Historia_Rezerwacji.Load();
             //collectionRezerwacje.Source = context.Historia_Rezerwacji.Local;
             //System.Windows.Data.CollectionViewSource typ_PokojuViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("typ_PokojuViewSource")));
@@ -61,7 +62,22 @@ namespace ProjektZaliczeniowy
             string CmdString = string.Empty;
             using (SqlConnection con = new SqlConnection(ConString))
             {
-                CmdString = "select distinct p.Nr_Pokoju from Historia_Rezerwacji h inner join Pokoje p on h.ID_Pokoju = p.ID_Pokoju";
+                CmdString = "select p.Nr_Pokoju, t.Opis from Historia_Rezerwacji h inner join Pokoje p on h.ID_Pokoju = p.ID_Pokoju inner join Typ_Pokoju t on p.Typ_Pokoju=t.ID_Typu_Pokoju where h.Rezerwacja_Od<GETDATE() and h.Rezerwacja_Do >GETDATE()";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("Pokoje");
+                sda.Fill(dt);
+                grdEmployee.ItemsSource = dt.DefaultView;
+            }
+        }
+        private void WszystkiePokojeGrid()
+        {
+            string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+            string CmdString = string.Empty;
+            grdEmployee.ItemsSource = null;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                CmdString = "select Nr_Pokoju, t.Opis from Pokoje inner join Typ_Pokoju t on Typ_Pokoju=t.ID_Typu_Pokoju";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("Pokoje");
@@ -80,6 +96,11 @@ namespace ProjektZaliczeniowy
             WolnePokojeGrid();
             StatusBox.Content = "Wolne pokoje";
         }
+        private void WszystkieButton_Click(object sender, RoutedEventArgs e)
+        {
+            WszystkiePokojeGrid();
+            StatusBox.Content = "Wszystkie pokoje";
+        }
 
         private void PracownicyButton_Click(object sender, RoutedEventArgs e)
         {
@@ -92,5 +113,6 @@ namespace ProjektZaliczeniowy
             RezerwacjeWindow rezerwacjeWindow = new RezerwacjeWindow();
             rezerwacjeWindow.ShowDialog();
         }
+
     }
 }
