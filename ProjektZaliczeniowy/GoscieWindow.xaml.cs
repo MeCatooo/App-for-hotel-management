@@ -47,7 +47,16 @@ namespace ProjektZaliczeniowy
         }
         private void myDG_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            context.SaveChanges();
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (Exception exc)
+            {
+                context.Dispose();
+                MessageBox.Show(exc.ToString());
+                context = new HotelEntities();
+            }
         }
     }
 }

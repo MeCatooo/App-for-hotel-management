@@ -57,18 +57,27 @@ namespace ProjektZaliczeniowy
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            int? idPokoju = context.Pokoje.FirstOrDefault(element => element.Nr_Pokoju.ToString() == numer_PokojuTextBox.Text).ID_Pokoju;
-            if (idPokoju == null)
-                throw new ArgumentException();
-            int? idGoscia = context.Historia_Rezerwacji.OrderByDescending(a => a.ID_Rezerwacja).FirstOrDefault(element => element.ID_Pokoju == idPokoju).ID_Goscia;
-            if (idGoscia == null)
-                throw new ArgumentException();
-            Dodatkowe_Uslugi dodatkowe = context.Dodatkowe_Uslugi.FirstOrDefault(element => element.Nazwa_Uslugi == nazwa_UslugiComboBox.SelectedItem.ToString());
-            if (dodatkowe == null)
-                throw new ArgumentException();
-            Dodatkowe_Oplaty dodatkowe_Oplaty = new Dodatkowe_Oplaty() { Data_Wykonania = data_WykonaniaDatePicker.SelectedDate.Value, Dodatkowe_Uslugi = dodatkowe, ID_Goscia = (int)idGoscia };
-            context.Dodatkowe_Oplaty.Add(dodatkowe_Oplaty);
-            context.SaveChanges();
+            try
+            {
+                int? idPokoju = context.Pokoje.FirstOrDefault(element => element.Nr_Pokoju.ToString() == numer_PokojuTextBox.Text).ID_Pokoju;
+                if (idPokoju == null)
+                    throw new ArgumentException();
+                int? idGoscia = context.Historia_Rezerwacji.OrderByDescending(a => a.ID_Rezerwacja).FirstOrDefault(element => element.ID_Pokoju == idPokoju).ID_Goscia;
+                if (idGoscia == null)
+                    throw new ArgumentException();
+                Dodatkowe_Uslugi dodatkowe = context.Dodatkowe_Uslugi.FirstOrDefault(element => element.Nazwa_Uslugi == nazwa_UslugiComboBox.SelectedItem.ToString());
+                if (dodatkowe == null)
+                    throw new ArgumentException();
+                Dodatkowe_Oplaty dodatkowe_Oplaty = new Dodatkowe_Oplaty() { Data_Wykonania = data_WykonaniaDatePicker.SelectedDate.Value, Dodatkowe_Uslugi = dodatkowe, ID_Goscia = (int)idGoscia };
+                context.Dodatkowe_Oplaty.Add(dodatkowe_Oplaty);
+                context.SaveChanges();
+            }
+            catch (Exception exc)
+            {
+                context.Dispose();
+                MessageBox.Show(exc.ToString());
+                context = new HotelEntities();
+            }
         }
     }
 }

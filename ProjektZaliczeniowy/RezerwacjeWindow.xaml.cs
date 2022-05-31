@@ -46,6 +46,14 @@ namespace ProjektZaliczeniowy
             }
             typ_PokojuComboBox.ItemsSource = list;
             typ_PokojuComboBox.SelectedIndex = 0;
+            var tmpPracownicy = context.Pracownicy.ToArray();
+            List<string> listPracownicy = new List<string>();
+            foreach (var item in tmpPracownicy)
+            {
+                listPracownicy.Add(item.Email);
+            }
+            obslugiwany_przezComboBox.ItemsSource = listPracownicy;
+            obslugiwany_przezComboBox.SelectedIndex = 0;
             typ_PokojuComboBox_SelectionChanged(null,null);
 
         }
@@ -95,7 +103,7 @@ namespace ProjektZaliczeniowy
                 Goscie found = context.Goscie.Where(element => element.Pesel == goscie.Pesel).FirstOrDefault();
                 if (found != null)
                 {
-                    Historia_Rezerwacji rezerwacja = new Historia_Rezerwacji() { ID_Goscia = found.ID_Goscia, Obslugiwany_przez = int.Parse(obslugiwany_przezTextBox.Text), Rezerwacja_Do = rezerwacja_DoDatePicker.SelectedDate.Value, Rezerwacja_Od = rezerwacja_OdDatePicker.SelectedDate.Value, ID_Pokoju = context.Pokoje.Where(pokoj => pokoj.Nr_Pokoju.ToString() == nr_PokojuComboBox.SelectedValue.ToString()).FirstOrDefault().ID_Pokoju };
+                    Historia_Rezerwacji rezerwacja = new Historia_Rezerwacji() { ID_Goscia = found.ID_Goscia, Obslugiwany_przez = context.Pracownicy.FirstOrDefault(pracownik => pracownik.Email==obslugiwany_przezComboBox.SelectedItem.ToString()).ID_Pracownika, Rezerwacja_Do = rezerwacja_DoDatePicker.SelectedDate.Value, Rezerwacja_Od = rezerwacja_OdDatePicker.SelectedDate.Value, ID_Pokoju = context.Pokoje.Where(pokoj => pokoj.Nr_Pokoju.ToString() == nr_PokojuComboBox.SelectedValue.ToString()).FirstOrDefault().ID_Pokoju };
                     context.Historia_Rezerwacji.Add(rezerwacja);
                     context.SaveChanges();
                 }
@@ -103,17 +111,20 @@ namespace ProjektZaliczeniowy
                 {
                     Goscie based = context.Goscie.Add(goscie);
                     context.SaveChanges();
-                    Historia_Rezerwacji rezerwacja = new Historia_Rezerwacji() { ID_Goscia = context.Goscie.Where(element => element.Pesel == based.Pesel).FirstOrDefault().ID_Goscia, Obslugiwany_przez = int.Parse(obslugiwany_przezTextBox.Text), Rezerwacja_Do = rezerwacja_DoDatePicker.SelectedDate.Value, Rezerwacja_Od = rezerwacja_OdDatePicker.SelectedDate.Value, ID_Pokoju = context.Pokoje.Where(pokoj => pokoj.Nr_Pokoju.ToString() == nr_PokojuComboBox.SelectedValue.ToString()).FirstOrDefault().ID_Pokoju };
+                    Historia_Rezerwacji rezerwacja = new Historia_Rezerwacji() { ID_Goscia = context.Goscie.Where(element => element.Pesel == based.Pesel).FirstOrDefault().ID_Goscia, Obslugiwany_przez = context.Pracownicy.FirstOrDefault(pracownik => pracownik.Email == obslugiwany_przezComboBox.SelectedItem.ToString()).ID_Pracownika, Rezerwacja_Do = rezerwacja_DoDatePicker.SelectedDate.Value, Rezerwacja_Od = rezerwacja_OdDatePicker.SelectedDate.Value, ID_Pokoju = context.Pokoje.Where(pokoj => pokoj.Nr_Pokoju.ToString() == nr_PokojuComboBox.SelectedValue.ToString()).FirstOrDefault().ID_Pokoju };
                     context.Historia_Rezerwacji.Add(rezerwacja);
                     context.SaveChanges();
                 }
             }
             catch(Exception exc)
             {
+                context.Dispose();
                 MessageBox.Show(exc.ToString());
+                context = new HotelEntities();
             }
             finally
             {
+                MessageBox.Show("Dodano");
                 storedFunction.Invoke();
             }
         }
@@ -153,7 +164,7 @@ namespace ProjektZaliczeniowy
             using (SqlConnection con = new SqlConnection(ConString))
             {
                 //var tmp = from obj in context.Typ_Pokoju where obj.Opis == typ_PokojuComboBox.Text select obj;
-                CmdString = $"select Nr_Pokoju from Pokoje p inner join Typ_Pokoju t on p.Typ_Pokoju=t.ID_Typu_Pokoju where Opis like '{typ_PokojuComboBox.Text}' except select h.ID_Pokoju from Historia_rezerwacji h where (h.Rezerwacja_Od between '{rezerwacja_OdDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.', '-')}' and '{rezerwacja_DoDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.','-')}' or (h.Rezerwacja_Do between '{rezerwacja_OdDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.', '-')}' and '{rezerwacja_DoDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.', '-')}') or ('{rezerwacja_DoDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.', '-')}' between h.Rezerwacja_Od and Rezerwacja_Do))";
+                CmdString = $"select Nr_Pokoju from Pokoje p inner join Typ_Pokoju t on p.Typ_Pokoju=t.ID_Typu_Pokoju where Opis like '{typ_PokojuComboBox.SelectedItem}' except select p.Nr_Pokoju from Historia_rezerwacji h left join Pokoje p on  h.ID_Pokoju=p.ID_Pokoju where (h.Rezerwacja_Od between '{rezerwacja_OdDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.', '-')}' and '{rezerwacja_DoDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.','-')}' or (h.Rezerwacja_Do between '{rezerwacja_OdDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.', '-')}' and '{rezerwacja_DoDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.', '-')}') or ('{rezerwacja_DoDatePicker.SelectedDate.Value.ToString("yyyy/MM/dd").Replace('.', '-')}' between h.Rezerwacja_Od and Rezerwacja_Do))";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("Pokoje1");
