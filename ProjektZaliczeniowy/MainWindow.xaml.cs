@@ -121,5 +121,11 @@ namespace ProjektZaliczeniowy
             GoscieWindow goscieWindow = new GoscieWindow();
             goscieWindow.ShowDialog();
         }
+
+        private void UslugiButton_Click(object sender, RoutedEventArgs e)
+        {
+            UslugiWindow uslugiWindow = new UslugiWindow();
+            uslugiWindow.ShowDialog();
+        }
     }
 }

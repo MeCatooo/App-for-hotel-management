@@ -48,7 +48,7 @@
         <Button x:Name="RezerwacjeButton" Content="Rezerwacje" HorizontalAlignment="Left" Margin="165,445,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Height="40" Click="RezerwacjeButton_Click"/>
         <Button Content="Wszystkie pokoje" HorizontalAlignment="Left" Margin="290,380,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Click="WszystkieButton_Click"/>
         <Button Content="Goscie" HorizontalAlignment="Left" Margin="290,445,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Height="40" Click="GoscieButton_Click"/>
-        <Button Content="Usługi" HorizontalAlignment="Left" Margin="420,445,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Height="40"/>
+        <Button x:Name="UsługiButton" Content="Usługi" HorizontalAlignment="Left" Margin="420,445,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" Height="40" Click="UslugiButton_Click"/>
 
     </Grid>
 
