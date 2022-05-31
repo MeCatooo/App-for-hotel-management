@@ -56,7 +56,7 @@ namespace ProjektZaliczeniowy
             historia_RezerwacjiDataGrid.ItemsSource = null;
             using (SqlConnection con = new SqlConnection(ConString))
             {
-                CmdString = "select h.ID_Rezerwacja,g.Imie, g.Nazwisko, (COALESCE (sum(case when o.Data_Wykonania between h.Rezerwacja_oD and h.Rezerwacja_Do then u.cena end),0)+t.cena_doba* (DATEDIFF(day, h.Rezerwacja_oD, h.Rezerwacja_Do)))  as 'cena za calosc', p.Nr_Pokoju as 'Numer Pokoju' from Historia_rezerwacji h inner join Pokoje p on h.Id_pokoju=p.ID_pokoju inner join Goscie g on h.ID_goscia=g.ID_Goscia inner join Typ_Pokoju t on p.Typ_Pokoju=t.ID_typu_pokoju inner join Dodatkowe_Oplaty o on h.Id_goscia=o.Id_goscia inner join Dodatkowe_Uslugi u on o.ID_Uslugi=u.Id_Uslugi where(h.Rezerwacja_Od between (GETDATE()-7) and GETDATE()) or (h.Rezerwacja_Do between (GETDATE() - 7) and GETDATE()) or (GETDATE() between h.Rezerwacja_Od and Rezerwacja_Do) group by g.Imie, g.Nazwisko, t.cena_doba, h.Rezerwacja_Do , Rezerwacja_Od, p.Nr_Pokoju, h.ID_Rezerwacja";
+                CmdString = "select h.ID_Rezerwacja,g.Imie, g.Nazwisko, (COALESCE (sum(case when o.Data_Wykonania between h.Rezerwacja_oD and h.Rezerwacja_Do then u.cena end),0)+t.cena_doba* (DATEDIFF(day, h.Rezerwacja_oD, h.Rezerwacja_Do)))  as 'cena za calosc', p.Nr_Pokoju as 'Numer Pokoju' from Historia_rezerwacji h inner join Pokoje p on h.Id_pokoju=p.ID_pokoju inner join Goscie g on h.ID_goscia=g.ID_Goscia inner join Typ_Pokoju t on p.Typ_Pokoju=t.ID_typu_pokoju left join Dodatkowe_Oplaty o on h.Id_goscia=o.Id_goscia left join Dodatkowe_Uslugi u on o.ID_Uslugi=u.Id_Uslugi where(h.Rezerwacja_Od between (GETDATE()-7) and GETDATE()) or (h.Rezerwacja_Do between (GETDATE() - 7) and GETDATE()) or (GETDATE() between h.Rezerwacja_Od and Rezerwacja_Do) group by g.Imie, g.Nazwisko, t.cena_doba, h.Rezerwacja_Do , Rezerwacja_Od, p.Nr_Pokoju, h.ID_Rezerwacja";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("Pokoje");
@@ -72,7 +72,7 @@ namespace ProjektZaliczeniowy
             historia_RezerwacjiDataGrid.ItemsSource = null;
             using (SqlConnection con = new SqlConnection(ConString))
             {
-                CmdString = "select h.ID_Rezerwacja,g.Imie, g.Nazwisko, (COALESCE (sum(case when o.Data_Wykonania between h.Rezerwacja_oD and h.Rezerwacja_Do then u.cena end),0)+t.cena_doba* (DATEDIFF(day, h.Rezerwacja_oD, h.Rezerwacja_Do)))  as 'cena za calosc', p.Nr_Pokoju as 'Numer Pokoju' from Historia_rezerwacji h inner join Pokoje p on h.Id_pokoju=p.ID_pokoju inner join Goscie g on h.ID_goscia=g.ID_Goscia inner join Typ_Pokoju t on p.Typ_Pokoju=t.ID_typu_pokoju inner join Dodatkowe_Oplaty o on h.Id_goscia=o.Id_goscia inner join Dodatkowe_Uslugi u on o.ID_Uslugi=u.Id_Uslugi group by h.ID_Rezerwacja, g.Imie, g.Nazwisko, t.cena_doba, h.Rezerwacja_Do , Rezerwacja_Od, p.Nr_Pokoju, h.ID_Rezerwacja";
+                CmdString = "select h.ID_Rezerwacja,g.Imie, g.Nazwisko, (COALESCE (sum(case when o.Data_Wykonania between h.Rezerwacja_oD and h.Rezerwacja_Do then u.cena end),0)+t.cena_doba* (DATEDIFF(day, h.Rezerwacja_oD, h.Rezerwacja_Do)))  as 'cena za calosc', p.Nr_Pokoju as 'Numer Pokoju' from Historia_rezerwacji h inner join Pokoje p on h.Id_pokoju=p.ID_pokoju inner join Goscie g on h.ID_goscia=g.ID_Goscia inner join Typ_Pokoju t on p.Typ_Pokoju=t.ID_typu_pokoju left join Dodatkowe_Oplaty o on h.Id_goscia=o.Id_goscia left join Dodatkowe_Uslugi u on o.ID_Uslugi=u.Id_Uslugi group by h.ID_Rezerwacja, g.Imie, g.Nazwisko, t.cena_doba, h.Rezerwacja_Do , Rezerwacja_Od, p.Nr_Pokoju, h.ID_Rezerwacja";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("Pokoje");
@@ -92,7 +92,7 @@ namespace ProjektZaliczeniowy
                     Pesel = peselTextBox.Text,
                     Nr_Telefonu = nr_TelefonuTextBox.Text
                 };
-                Goscie found = context.Goscie.Where(element => element.Pesel == element.Pesel).FirstOrDefault();
+                Goscie found = context.Goscie.Where(element => element.Pesel == goscie.Pesel).FirstOrDefault();
                 if (found != null)
                 {
                     Historia_Rezerwacji rezerwacja = new Historia_Rezerwacji() { ID_Goscia = found.ID_Goscia, Obslugiwany_przez = int.Parse(obslugiwany_przezTextBox.Text), Rezerwacja_Do = rezerwacja_DoDatePicker.SelectedDate.Value, Rezerwacja_Od = rezerwacja_OdDatePicker.SelectedDate.Value, ID_Pokoju = context.Pokoje.Where(pokoj => pokoj.Nr_Pokoju.ToString() == nr_PokojuComboBox.SelectedValue.ToString()).FirstOrDefault().ID_Pokoju };
@@ -102,7 +102,8 @@ namespace ProjektZaliczeniowy
                 else
                 {
                     Goscie based = context.Goscie.Add(goscie);
-                    Historia_Rezerwacji rezerwacja = new Historia_Rezerwacji() { ID_Goscia = based.ID_Goscia, Obslugiwany_przez = int.Parse(obslugiwany_przezTextBox.Text), Rezerwacja_Do = rezerwacja_DoDatePicker.SelectedDate.Value, Rezerwacja_Od = rezerwacja_OdDatePicker.SelectedDate.Value, ID_Pokoju = context.Pokoje.Where(pokoj => pokoj.Nr_Pokoju.ToString() == nr_PokojuComboBox.SelectedValue.ToString()).FirstOrDefault().ID_Pokoju };
+                    context.SaveChanges();
+                    Historia_Rezerwacji rezerwacja = new Historia_Rezerwacji() { ID_Goscia = context.Goscie.Where(element => element.Pesel == based.Pesel).FirstOrDefault().ID_Goscia, Obslugiwany_przez = int.Parse(obslugiwany_przezTextBox.Text), Rezerwacja_Do = rezerwacja_DoDatePicker.SelectedDate.Value, Rezerwacja_Od = rezerwacja_OdDatePicker.SelectedDate.Value, ID_Pokoju = context.Pokoje.Where(pokoj => pokoj.Nr_Pokoju.ToString() == nr_PokojuComboBox.SelectedValue.ToString()).FirstOrDefault().ID_Pokoju };
                     context.Historia_Rezerwacji.Add(rezerwacja);
                     context.SaveChanges();
                 }
