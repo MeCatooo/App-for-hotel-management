@@ -2,7 +2,9 @@
 
 
 Setup
-1.W bazie localDB uruchomić skrypt Tabele z folderu Baza.
+
+1.W bazie localDB uruchomić skrypt Tabele, a następnie insert z folderu "Baza".
+
 2. Uruchomić projekt.
 
 Aplikacja do obsługi hotelu, pozwala na zarządzanie rezerwacjami, usługami, pracownikami oraz goścmi
