@@ -50,7 +50,7 @@ namespace ProjektZaliczeniowy
         private void DeleteButton1_Click(object sender, RoutedEventArgs e)
         {
             var lista = (Dodatkowe_Oplaty)dodatkowe_OplatyDataGrid.SelectedItem;
-            context.Pracownicy.Remove(context.Pracownicy.Find(lista.ID_Uslugi));
+            context.Dodatkowe_Oplaty.Remove(context.Dodatkowe_Oplaty.Find(lista.ID_Uslugi));
             context.SaveChanges();
             MessageBox.Show("Usunieto");
         }

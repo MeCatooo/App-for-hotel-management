@@ -50,17 +50,14 @@ namespace ProjektZaliczeniowy
                     throw new ArgumentException();
                 context.Pracownicy.Add(pracownicy);
                 context.SaveChanges();
+                MessageBox.Show("Dodano");
+                context.Pracownicy.Load();
             }
             catch (Exception exc)
             {
                 context.Dispose();
                 MessageBox.Show(exc.ToString());
                 context = new HotelEntities();
-            }
-            finally
-            {
-                MessageBox.Show("Dodano");
-                context.Pracownicy.Load();
             }
         }
 

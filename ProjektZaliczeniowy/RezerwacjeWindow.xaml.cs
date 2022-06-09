@@ -115,17 +115,14 @@ namespace ProjektZaliczeniowy
                     context.Historia_Rezerwacji.Add(rezerwacja);
                     context.SaveChanges();
                 }
+                MessageBox.Show("Dodano");
+                storedFunction.Invoke();
             }
             catch(Exception exc)
             {
                 context.Dispose();
                 MessageBox.Show(exc.ToString());
                 context = new HotelEntities();
-            }
-            finally
-            {
-                MessageBox.Show("Dodano");
-                storedFunction.Invoke();
             }
         }
 
